@@ -1,0 +1,13 @@
+Objective: To determine if the application improperly handles user input in the search functionality, allowing for the execution of malicious scripts in a user's browser.
+
+Methodology:
+1. Discovery: I identified a search bar that reflects the user's query back onto the page (e.g., "You searched for: [query]").
+2. Testing: I entered a simple HTML tag `<p>Test</p>` to see if it was rendered. It was, confirming the lack of output encoding.
+3. Exploitation: I injected a JavaScript payload designed to trigger an alert box to prove execution.
+   Payload used: `<script>alert('XSS-Vulnerability-Confirmed')</script>`
+
+Business Impact:
+Medium/High. A successful XSS attack can be used to steal session cookies, redirect users to phishing sites, or perform actions on behalf of the user (Session Hijacking).
+
+Remediation Recommendation:
+Implement Context-Aware Output Encoding. All user-supplied data must be encoded before being rendered in the browser (e.g., converting `<` to `&lt;`), ensuring the browser treats the input as text rather than executable code.
