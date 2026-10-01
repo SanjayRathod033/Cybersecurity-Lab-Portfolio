@@ -1,0 +1,13 @@
+Objective: To identify and exploit a SQL Injection vulnerability within a product category filter to gain unauthorized access to the backend database.
+
+Methodology:
+1. Discovery: While testing the `/filter` endpoint, I observed that the `category` parameter was being passed directly into a database query.
+2. Testing: I injected a single quote (`'`) into the parameter, which triggered a 500 Internal Server Error, confirming that the input was not being sanitized.
+3. Exploitation: Using Burp Suite Repeater, I crafted a `UNION` based payload to determine the number of columns and eventually dump the contents of the `users` table.
+   Payload used: `' UNION SELECT username, password FROM users--`
+
+Business Impact:
+Critical. An attacker could extract the entire user database, including administrative credentials, leading to a full system compromise and data breach.
+
+Remediation Recommendation:
+Implement Parameterized Queries (Prepared Statements). This ensures that the database treats user input as data, not as executable code, completely neutralizing SQL injection attacks.
