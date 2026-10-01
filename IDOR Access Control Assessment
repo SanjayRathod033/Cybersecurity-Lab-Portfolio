@@ -1,0 +1,12 @@
+Objective: To test for Broken Access Control by attempting to access private user data belonging to other accounts.
+
+Methodology:
+1. Observation: I logged into my account and noticed that the URL for my profile page was `/user/profile?id=105`.
+2. Manipulation: Using Burp Suite, I captured the request and manually changed the `id` parameter from `105` to `106` (and other random integers).
+3. Validation: The server responded with the full profile details (Email, Address, Phone Number) of a different user without requiring any additional authorization.
+
+Business Impact:
+High. This vulnerability allows any authenticated user to scrape the private data of every other user in the system, leading to a massive privacy violation and regulatory (GDPR/HIPAA) non-compliance.
+
+Remediation Recommendation:
+Implement Server-Side Object-Level Authorization. The application must verify that the requesting user has the specific permission to access the requested object ID before returning the data.
